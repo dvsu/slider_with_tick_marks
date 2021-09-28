@@ -11,6 +11,8 @@ class CustomSlider extends StatelessWidget {
   final Color? inactiveColor;
   final int labelValuePrecision;
   final int tickValuePrecision;
+  final bool linearStep;
+  final List<double>? steps;
 
   CustomSlider({
     required this.value,
@@ -23,6 +25,8 @@ class CustomSlider extends StatelessWidget {
     this.inactiveColor,
     this.labelValuePrecision = 2,
     this.tickValuePrecision = 1,
+    this.linearStep = true,
+    this.steps,
   });
 
   @override
@@ -49,7 +53,9 @@ class CustomSlider extends StatelessWidget {
                     height: valueHeight,
                     child: index % (minorTick + 1) == 0
                         ? Text(
-                            '${(index / (divisions - 1) * maxValue).toStringAsFixed(tickValuePrecision)}',
+                            linearStep
+                                ? '${(index / (divisions - 1) * maxValue).toStringAsFixed(tickValuePrecision)}'
+                                : '${(steps?[index])?.toStringAsFixed(tickValuePrecision)}',
                             style: TextStyle(
                               fontSize: 12,
                             ),

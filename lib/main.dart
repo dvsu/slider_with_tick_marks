@@ -29,6 +29,27 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   double value = 50;
+  double actualValue = 50;
+  double minValue = 0;
+  double maxValue = 100;
+  List<double> steps = [
+    0,
+    5,
+    10,
+    15,
+    20,
+    25,
+    30,
+    35,
+    40,
+    45,
+    50,
+    60,
+    70,
+    80,
+    90,
+    100
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -40,16 +61,24 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CustomSlider(
-            minValue: 0,
-            maxValue: 100,
+            minValue: minValue,
+            maxValue: maxValue,
             value: value,
             majorTick: 6,
             minorTick: 2,
             labelValuePrecision: 0,
             tickValuePrecision: 0,
-            onChanged: (val) => setState(() => value = val),
+            onChanged: (val) => setState(() {
+              value = val;
+              actualValue =
+                  steps[(val / maxValue * (steps.length - 1)).ceil().toInt()];
+              print('Slider value (linear): $value');
+              print('Actual value (non-linear): $actualValue');
+            }),
             activeColor: Colors.orange,
             inactiveColor: Colors.orange.shade50,
+            linearStep: false,
+            steps: steps,
           ),
         ],
       ),
